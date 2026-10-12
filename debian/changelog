@@ -1,0 +1,155 @@
+linal (1.1.0) unstable; urgency=medium
+
+  * Renamed from Signal-L5 to Linal (package linal, app id
+    io.github.andy53.Linal, command linal, services linal-daemon and
+    linal-receiver). Replaces the signal-l5 package. On first start the
+    app moves Signal-L5's messages, settings and logs to the new folders and
+    stops its old services; signal-cli's account data is unchanged.
+  * The daemon uses IPv4 only. On some mobile networks IPv6 silently drops
+    large packets, which made a newly registered account hang on its first
+    key upload until mobile IPv6 was turned off.
+  * Removed the old standalone installer and the pre-package TCP daemon
+    check.
+
+ -- Linal Maintainers <linal@example.invalid>  Mon, 12 Oct 2026 14:00:00 -0600
+
+signal-l5 (1.0.12) unstable; urgency=medium
+
+  * One account at a time on the phone. When a different account signs in,
+    or the account is logged out, everything of previous accounts is
+    deleted: signal-cli's keys and data for them and its received
+    attachments, and the app's messages, contacts, call log and copies of
+    sent attachments. Message history is now kept per account
+    (accounts/<id>/history.db).
+  * "Logged out" is either Settings > Log out (new: unregisters this phone,
+    then deletes) or Signal refusing the account's credentials, e.g. after
+    the number was registered on another device. Being offline never
+    deletes anything.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Mon, 12 Oct 2026 13:00:00 -0600
+
+signal-l5 (1.0.11) unstable; urgency=medium
+
+  * Verification code dialog: act on its first response only. Filling in the
+    SMS code closed the dialog, which counted as Cancel and restarted the
+    daemon in the middle of verifying; and a code sent from the keyboard or
+    by auto-fill left the dialog open, so it could be sent a second time
+    after registration had already succeeded.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Mon, 12 Oct 2026 12:05:00 -0600
+
+signal-l5 (1.0.10) unstable; urgency=medium
+
+  * "On this phone" captcha: show Signal's captcha in Signal-L5's own window
+    and catch the signalcaptcha:// link from the page's navigation. GNOME Web
+    can't hand over the link when the page redirects to it by itself (it shows
+    the link as a broken page instead), so registration never continued.
+    Falls back to the default browser when WebKitGTK 6.0 isn't available.
+  * Ship the captcha window (captcha_helper) in the package again.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Mon, 12 Oct 2026 11:30:00 -0600
+
+signal-l5 (1.0.9) unstable; urgency=medium
+
+  * Developer option: SIGNAL_L5_SERVICE_ENV=staging makes registration use
+    Signal's staging captcha page, for testing against Signal's staging
+    service (with a daemon started with --service-environment staging and
+    separate XDG data/state folders). Default and any other value: live.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Mon, 12 Oct 2026 10:00:00 -0600
+
+signal-l5 (1.0.8) unstable; urgency=medium
+
+  * Registration: solve the captcha on another device. Signal usually refuses
+    captchas solved in the Librem 5's own browser (HTTP 403; hCaptcha scores
+    the slow browser as a likely bot), so the captcha step now recommends
+    "On another device": the phone shows a QR code and address, serves a
+    one-time page on its Wi-Fi address only, and the other device pastes or
+    drops the "Open Signal" link there; registration then continues on the
+    phone. "On this phone" remains available.
+  * Explain a refused captcha (403) and point to the other-device option
+    instead of suggesting the same thing again.
+  * Recommend python3-qrcode (QR code) and iproute2.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Sun, 11 Oct 2026 14:30:00 -0600
+
+signal-l5 (1.0.7) unstable; urgency=medium
+
+  * Don't restart the daemon a second time after a failed registration: decide
+    whether a running daemon is the pre-1.0.5 (TCP) one from its command line,
+    not from a missing socket, which a just-restarted daemon also lacks.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Sun, 11 Oct 2026 09:00:00 -0600
+
+signal-l5 (1.0.6) unstable; urgency=medium
+
+  * Local support logging: rotating logs per component in
+    ~/.local/state/signal-l5/logs (private), with phone numbers, Signal IDs,
+    captcha links and tokens redacted and no message text; uncaught errors are
+    logged with tracebacks. Nothing is sent anywhere.
+  * "Save logs for support" (main menu, Settings) writes one redacted file to
+    Downloads; Settings has a "Detailed logging" switch.
+  * Ask for a profile name when none is set (people otherwise see "Unknown").
+  * Ring and notify once per incoming call: signal-cli reports ringing twice,
+    which posted two notifications and invalidated the Answer button's token.
+  * Escape notification text (Phosh renders body markup).
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Thu, 08 Oct 2026 10:00:00 -0600
+
+signal-l5 (1.0.5) unstable; urgency=medium
+
+  * Registration opens the captcha in the default browser again (GNOME Web on
+    PureOS) and no longer depends on firefox-esr: the HTTP 403s happened with
+    captchas from Firefox too, so the browser was not the cause.
+  * After a failed or abandoned registration, restart the signal-cli daemon so
+    the existing account resumes receiving messages and calls (signal-cli
+    closes it when a registration of the same number starts).
+  * Security: the daemon serves JSON-RPC on a Unix socket in a private runtime
+    directory instead of TCP 127.0.0.1:7583, which any local process (and web
+    pages POSTing to localhost) could use to read messages and act as the
+    account. The app restarts a pre-upgrade daemon still listening on TCP.
+  * Security: discard the daemon's stdout, where signal-cli prints the text of
+    every received message, so messages no longer end up in the journal.
+  * Security: signall5:call links answer a call only with a one-time token
+    from the incoming-call notification; other apps and web pages could
+    previously answer an incoming call by opening such a link.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Thu, 08 Oct 2026 09:00:00 -0600
+
+signal-l5 (1.0.4) unstable; urgency=medium
+
+  * Give browsers the session-bus address when the app was started without
+    one (e.g. by the receiver for an incoming call), so reopening the captcha
+    doesn't make Firefox report "already running, but is not responding".
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Wed, 07 Oct 2026 22:00:00 -0600
+
+signal-l5 (1.0.3) unstable; urgency=medium
+
+  * Registration: open the captcha in Firefox again and depend on firefox-esr
+    (Signal answers HTTP 403 to captchas solved in GNOME Web on the phone).
+  * Show Signal's error with a "Try again" button instead of reopening the
+    captcha automatically, and log registration failures.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Wed, 07 Oct 2026 21:40:00 -0600
+
+signal-l5 (1.0.2) unstable; urgency=medium
+
+  * Registration opens the captcha in the default browser (GNOME Web on
+    PureOS) instead of preferring Firefox; recommend epiphany-browser.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Wed, 07 Oct 2026 21:10:00 -0600
+
+signal-l5 (1.0.1) unstable; urgency=medium
+
+  * Install and enable the signal-l5-daemon and signal-l5-receiver user
+    services (dh_installsystemduser needs --name for them).
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Wed, 07 Oct 2026 20:45:00 -0600
+
+signal-l5 (1.0.0) unstable; urgency=medium
+
+  * First release: messaging, attachments, reactions, voice calls, contacts,
+    notifications and on-device registration.
+
+ -- Signal-L5 Maintainers <signal-l5@example.invalid>  Wed, 07 Oct 2026 20:00:00 -0600

@@ -1,0 +1,28 @@
+.TH LINAL 1 "October 2026" "linal 1.1.0" "User Commands"
+.SH NAME
+linal \- Signal messenger for the Librem 5
+.SH SYNOPSIS
+.B linal
+[\fIURI\fR]
+.SH DESCRIPTION
+Native GTK/libadwaita Signal client running as the primary Signal device via
+signal-cli. Opening a \fBsignalcaptcha://\fR link continues registration; a
+\fBlinal:conv/\fR or \fBlinal:call/\fR link (from a notification) opens
+that conversation or call.
+.SH OPTIONS
+.TP
+.B \-\-mock
+Run with canned demo data and no Signal account.
+.SH FILES
+.TP
+.I ~/.local/share/linal/
+Settings, and message history per account (\fBaccounts/\fR). Signing in with a
+different account, or logging out, deletes every other account's history.
+.TP
+.I ~/.local/state/linal/logs/
+Logs (phone numbers shortened, message text never logged).
+.TP
+.I ~/.local/share/signal-cli/
+Signal account keys and data (signal-cli).
+.SH SEE ALSO
+.BR linal-receiver (1)

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Linal
+GenericName=Messenger
+Comment=Private messages and calls with Signal
+Exec=linal %u
+Icon=io.github.andy53.Linal
+Terminal=false
+Categories=Network;InstantMessaging;Chat;GTK;
+Keywords=signal;chat;messages;sms;call;encrypted;
+MimeType=x-scheme-handler/signalcaptcha;x-scheme-handler/linal;
+StartupNotify=true
+X-Purism-FormFactor=Workstation;Mobile;

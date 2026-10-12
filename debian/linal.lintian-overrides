@@ -1,0 +1,10 @@
+# signal-cli 0.14.8 is Java 25 bytecode (class version 69), newer than this
+# lintian knows; it runs on the bundled Java 25 runtime.
+linal: unknown-java-class-version *
+# Bundled Eclipse Temurin JRE (Debian has no Java 25): shipped exactly as built
+# upstream, including its own zlib/libjpeg/freetype/lcms copies and jrt-fs.jar.
+linal: embedded-library * [usr/lib/linal/jre/*]
+linal: unstripped-binary-or-object [usr/lib/linal/jre/*]
+linal: jar-not-in-usr-share [usr/lib/linal/jre/lib/jrt-fs.jar]
+# RingRTC's prebuilt WebRTC statically links libsrtp.
+linal: embedded-library srtp [usr/lib/linal/bin/signal-call-tunnel]

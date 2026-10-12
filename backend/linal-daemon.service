@@ -1,0 +1,32 @@
+# systemd --user unit, enabled for all users by the package (dh_installsystemduser).
+[Unit]
+Description=Linal signal-cli daemon (Signal primary device)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Media engine for voice calls (RingRTC); signal-cli spawns one per call.
+Environment=SIGNAL_CALL_TUNNEL_BIN=/usr/lib/linal/bin/signal-call-tunnel
+# JSON-RPC on a Unix socket in a private runtime directory ($XDG_RUNTIME_DIR/
+# linal, mode 0700, removed when the service stops). Never TCP: anything on
+# the device - and web pages POSTing to 127.0.0.1 - could drive the account.
+RuntimeDirectory=linal
+RuntimeDirectoryMode=0700
+UMask=0077
+ExecStart=/usr/lib/linal/bin/signal-cli daemon --socket %t/linal/socket
+# IPv4 only. On some mobile networks IPv6 silently drops packets over ~1450
+# bytes (no "packet too big" comes back), so large requests over the message
+# connection hang, e.g. a new account's first key upload. libsignal prefers
+# IPv6; without AF_INET6 it uses IPv4 (carriers provide it, natively or
+# through the modem's translation).
+RestrictAddressFamilies=AF_UNIX AF_INET AF_NETLINK
+Environment=JAVA_OPTS=-Djava.net.preferIPv4Stack=true
+# signal-cli prints every received message (including its text) on stdout;
+# keep that out of the journal. Warnings and errors still go to stderr.
+StandardOutput=null
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

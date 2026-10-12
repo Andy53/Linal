@@ -1,0 +1,15 @@
+# systemd --user unit: persists incoming Signal messages into the local store
+# so nothing is missed while the GUI is closed, and raises notifications.
+[Unit]
+Description=Linal message receiver (history + notifications)
+After=linal-daemon.service
+Wants=linal-daemon.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/linal-receiver
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

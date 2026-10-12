@@ -1,0 +1,12 @@
+.TH LINAL-RECEIVER 1 "October 2026" "linal 1.1.0" "User Commands"
+.SH NAME
+linal-receiver \- background receiver for Linal
+.SH SYNOPSIS
+.B linal-receiver
+.SH DESCRIPTION
+Stays connected to the signal-cli daemon, stores every incoming message,
+reaction, receipt and call in the Linal history, and raises notifications
+and incoming-call ringing while the app is closed. Normally run by the
+\fBlinal-receiver.service\fR systemd user unit, not by hand.
+.SH SEE ALSO
+.BR linal (1)

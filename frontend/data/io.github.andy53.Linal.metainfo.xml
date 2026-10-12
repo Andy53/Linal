@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AppStream metadata: what GNOME Software / the PureOS store shows for the app. -->
+<component type="desktop-application">
+  <id>io.github.andy53.Linal</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later AND AGPL-3.0-only AND GPL-2.0-only WITH Classpath-exception-2.0</project_license>
+  <name>Linal</name>
+  <summary>Private messages and calls with Signal</summary>
+  <developer id="io.github.andy53">
+    <name>Linal contributors</name>
+  </developer>
+  <description>
+    <p>
+      A native GTK/libadwaita Signal client for the Librem 5. Your phone is the
+      Signal device: register your number on the phone with SMS verification.
+      Signal's captcha is solved once on a computer or another phone on the same
+      Wi-Fi and handed to the phone automatically.
+    </p>
+    <ul>
+      <li>One-to-one and group chats with photos and files</li>
+      <li>Replies, reactions, delete for everyone, read receipts and typing indicators</li>
+      <li>Voice calls with earpiece, speaker and mute</li>
+      <li>Start chats from your phone's contacts</li>
+      <li>Notifications and incoming calls even when the app is closed</li>
+    </ul>
+    <p>
+      Linal is an unofficial client built on signal-cli; it is not
+      affiliated with Signal Messenger LLC.
+    </p>
+  </description>
+  <url type="homepage">https://github.com/Andy53/Linal</url>
+  <launchable type="desktop-id">io.github.andy53.Linal.desktop</launchable>
+  <provides>
+    <binary>linal</binary>
+  </provides>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+  </categories>
+  <keywords>
+    <keyword>signal</keyword>
+    <keyword>chat</keyword>
+    <keyword>messenger</keyword>
+    <keyword>encrypted</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>touch</control>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <recommends>
+    <internet>always</internet>
+  </recommends>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="1.1.0" date="2026-10-12">
+      <description><p>Signal-L5 is now called Linal. Newly registered accounts no longer hang on mobile networks with broken IPv6.</p></description>
+    </release>
+    <release version="1.0.12" date="2026-10-12">
+      <description><p>New Log out option. Logging out, or signing in with a different number, deletes everything of the previous account from the phone.</p></description>
+    </release>
+    <release version="1.0.11" date="2026-10-12">
+      <description><p>Registration no longer fails or repeats itself after the SMS code is filled in automatically.</p></description>
+    </release>
+    <release version="1.0.10" date="2026-10-12">
+      <description><p>Registering on the phone itself works again: the captcha opens in the app, which collects the link directly.</p></description>
+    </release>
+    <release version="1.0.9" date="2026-10-12">
+      <description><p>Developer option for testing registration against the Signal staging service.</p></description>
+    </release>
+    <release version="1.0.8" date="2026-10-11">
+      <description><p>Register by solving the captcha on a computer or another phone on the same Wi-Fi.</p></description>
+    </release>
+    <release version="1.0.7" date="2026-10-11">
+      <description><p>Fixes an extra restart of the Signal service after a failed registration.</p></description>
+    </release>
+    <release version="1.0.6" date="2026-10-08">
+      <description><p>Save logs for support (kept on your phone), a prompt to set your profile name, and fixed duplicate incoming-call notifications.</p></description>
+    </release>
+    <release version="1.0.5" date="2026-10-08">
+      <description><p>Security fixes: other apps and web pages can no longer control your account or answer calls, and message text is no longer written to the system log. Registration uses your default browser again.</p></description>
+    </release>
+    <release version="1.0.4" date="2026-10-07">
+      <description><p>Fixes Firefox reporting "already running" when reopening the captcha.</p></description>
+    </release>
+    <release version="1.0.3" date="2026-10-07">
+      <description><p>Registration uses Firefox for the captcha and shows clear errors.</p></description>
+    </release>
+    <release version="1.0.2" date="2026-10-07">
+      <description><p>Registration uses your default browser (GNOME Web).</p></description>
+    </release>
+    <release version="1.0.1" date="2026-10-07">
+      <description><p>Background services now start automatically.</p></description>
+    </release>
+    <release version="1.0.0" date="2026-10-07">
+      <description>
+        <p>First release: messaging, attachments, reactions, voice calls,
+        contacts, notifications and on-device registration.</p>
+      </description>
+    </release>
+  </releases>
+</component>

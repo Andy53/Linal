@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import sys, os
+# the linal package sits next to bin/ (frontend/ in the source tree, /usr/share/linal installed)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from linal.app import main
+raise SystemExit(main())

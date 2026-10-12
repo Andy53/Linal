@@ -1,0 +1,18 @@
+# build artifacts
+/build/
+/dist/
+*.deb
+target/
+__pycache__/
+# local secrets / account data — NEVER commit
+/backend/data/
+*.key
+
+# downloaded by packaging/fetch-vendor.sh (checked against vendor/SHA256SUMS)
+/vendor/*.tar.gz
+# signal-call-tunnel build inputs and trees (third_party/fetch_call_tunnel_deps.sh)
+/third_party/call-tunnel-bundle/
+/third_party/webrtc-out-aarch64/
+/third_party/hara-seihun_signal-call-tunnel/
+/third_party/robertnisipeanu_signal-call-tunnel/
+/third_party/*.log

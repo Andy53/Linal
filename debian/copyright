@@ -1,0 +1,59 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: linal
+Comment: Unofficial client; not affiliated with Signal Messenger LLC.
+
+Files: *
+Copyright: 2026 Linal contributors
+License: GPL-3+
+
+Files: vendor/signal-cli-*
+Copyright: AsamK and signal-cli contributors
+License: GPL-3
+Comment: https://github.com/AsamK/signal-cli (release 0.14.8 tarball)
+
+Files: vendor/libsignal_jni*
+Copyright: Signal Messenger, LLC
+License: AGPL-3
+Comment: libsignal v0.102.1 built for aarch64 by https://github.com/exquo/signal-libs-build
+
+Files: vendor/OpenJDK25U-jre*
+Copyright: Oracle and/or its affiliates; Eclipse Adoptium (Temurin builds)
+License: GPL-2 with Classpath exception
+Comment: Eclipse Temurin JRE 25.0.4.1+1, aarch64. Full license and notices are
+ in /usr/lib/linal/jre/legal/.
+
+Files: prebuilt/arm64/signal-call-tunnel third_party/*
+Copyright: Signal Messenger, LLC; signal-call-tunnel contributors
+License: AGPL-3
+Comment: Built from https://github.com/hara-seihun/signal-call-tunnel (commit
+ 6fe3298) with RingRTC v2.65.1; see third_party/README.md for the exact build.
+
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in "/usr/share/common-licenses/GPL-3".
+
+License: GPL-3
+ This program is free software: you can redistribute it and/or modify it under
+ the terms of the GNU General Public License version 3 as published by the Free
+ Software Foundation.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in "/usr/share/common-licenses/GPL-3".
+
+License: AGPL-3
+ This program is free software: you can redistribute it and/or modify it under
+ the terms of the GNU Affero General Public License version 3 as published by
+ the Free Software Foundation.
+ .
+ The full text is shipped as /usr/share/doc/linal/signal-call-tunnel.LICENSE.
+
+License: GPL-2 with Classpath exception
+ Licensed under the GNU General Public License version 2, with the Classpath
+ exception. On Debian systems, the complete text of the GNU General Public
+ License version 2 can be found in "/usr/share/common-licenses/GPL-2"; the
+ exception text is in /usr/lib/linal/jre/legal/.

@@ -1,0 +1,5 @@
+#!/bin/sh
+# signal-cli with the bundled Java runtime and aarch64 libsignal native library.
+export JAVA_HOME=/usr/lib/linal/jre
+export JAVA_OPTS="-Djava.library.path=/usr/lib/linal/lib ${JAVA_OPTS:-}"
+exec /usr/share/linal/signal-cli/bin/signal-cli "$@"

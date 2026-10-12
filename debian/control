@@ -1,0 +1,30 @@
+Source: linal
+Section: net
+Priority: optional
+Maintainer: Linal Maintainers <linal@example.invalid>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: linal
+Architecture: arm64
+Depends: ${misc:Depends}, ${shlibs:Depends},
+         python3 (>= 3.11), python3-gi, gir1.2-glib-2.0, gir1.2-gtk-4.0 (>= 4.8),
+         gir1.2-adw-1 (>= 1.2), gir1.2-gdkpixbuf-2.0,
+         pulseaudio-utils, libpulse0
+Recommends: gir1.2-webkit-6.0, epiphany-browser | www-browser, callaudiod, feedbackd,
+            modemmanager, chatty, evolution-data-server, python3-qrcode, iproute2
+Conflicts: signal-l5
+Replaces: signal-l5
+Description: Signal messenger for the Librem 5 (unofficial)
+ A native GTK/libadwaita Signal client that runs as the primary Signal
+ device: register your phone number on the phone itself with SMS
+ verification. Signal's captcha can be solved on a computer or another
+ phone on the same Wi-Fi and is handed to the phone automatically.
+ .
+ Supports one-to-one and group chats with attachments, replies, reactions,
+ delete for everyone, read receipts, typing indicators, voice calls,
+ phone-contact lookup and notifications while the app is closed.
+ .
+ Bundles signal-cli 0.14.8, its aarch64 libsignal native library, a Java 25
+ runtime (Eclipse Temurin) and signal-call-tunnel (RingRTC) for calls.

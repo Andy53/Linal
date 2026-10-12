@@ -1,0 +1,65 @@
+#!/usr/bin/make -f
+# Binary package for arm64. Third-party components come from vendor/ (pinned,
+# checksummed: packaging/fetch-vendor.sh) and prebuilt/ (signal-call-tunnel,
+# built per third_party/README.md); nothing is downloaded at install time.
+export DH_VERBOSE = 1
+D = debian/linal
+LIB = $(D)/usr/lib/linal
+SHARE = $(D)/usr/share/linal
+VENDOR = vendor
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cd $(VENDOR) && sha256sum -c SHA256SUMS
+
+override_dh_auto_install:
+	# --- the app (Python/GTK), without the tests
+	mkdir -p $(SHARE)/bin
+	cp -r frontend/linal $(SHARE)/
+	find $(SHARE) -name __pycache__ -prune -exec rm -rf {} +
+	install -m755 frontend/bin/linal frontend/bin/linal-receiver $(SHARE)/bin/
+	mkdir -p $(D)/usr/bin
+	ln -s ../share/linal/bin/linal $(D)/usr/bin/linal
+	ln -s ../share/linal/bin/linal-receiver $(D)/usr/bin/linal-receiver
+	# --- signal-cli + its runtime
+	mkdir -p $(LIB)/jre $(LIB)/lib $(LIB)/bin
+	# jars are architecture-independent: /usr/share (Java policy)
+	tar -C $(SHARE) -xzf $(VENDOR)/signal-cli-0.14.8.tar.gz
+	mv $(SHARE)/signal-cli-0.14.8 $(SHARE)/signal-cli
+	rm -f $(SHARE)/signal-cli/bin/signal-cli.bat
+	tar -C $(LIB)/jre --strip-components=1 -xzf $(VENDOR)/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.4.1_1.tar.gz
+	tar -C $(LIB)/lib -xzf $(VENDOR)/libsignal_jni.so-v0.102.1-aarch64-unknown-linux-gnu.tar.gz libsignal_jni.so
+	chmod 644 $(LIB)/lib/libsignal_jni.so
+	install -m755 backend/signal-cli-wrapper $(LIB)/bin/signal-cli
+	# --- voice-call media engine
+	install -m755 prebuilt/arm64/signal-call-tunnel $(LIB)/bin/signal-call-tunnel
+	# --- desktop integration
+	install -Dm644 frontend/data/io.github.andy53.Linal.desktop $(D)/usr/share/applications/io.github.andy53.Linal.desktop
+	install -Dm644 frontend/data/io.github.andy53.Linal.metainfo.xml $(D)/usr/share/metainfo/io.github.andy53.Linal.metainfo.xml
+	install -Dm644 packaging/linal.1 $(D)/usr/share/man/man1/linal.1
+	install -Dm644 packaging/linal-receiver.1 $(D)/usr/share/man/man1/linal-receiver.1
+	install -Dm644 frontend/data/icons/io.github.andy53.Linal.svg $(D)/usr/share/icons/hicolor/scalable/apps/io.github.andy53.Linal.svg
+	# --- licenses of bundled components
+	install -Dm644 third_party/signal-call-tunnel.LICENSE $(D)/usr/share/doc/linal/signal-call-tunnel.LICENSE
+
+# Units named other than the package need --name, or debhelper skips them.
+override_dh_installsystemduser:
+	cp backend/linal-daemon.service debian/linal.linal-daemon.user.service
+	cp backend/linal-receiver.service debian/linal.linal-receiver.user.service
+	dh_installsystemduser --name=linal-daemon
+	dh_installsystemduser --name=linal-receiver
+
+# The bundled JRE is a self-contained runtime (its GUI/sound libs are never
+# loaded by headless signal-cli): don't strip it or derive dependencies from it.
+override_dh_strip:
+	dh_strip -X/jre/
+
+override_dh_dwz:
+
+override_dh_shlibdeps:
+	dh_shlibdeps -X/jre/
+
+override_dh_makeshlibs:
+	dh_makeshlibs -X/usr/lib/linal

@@ -120,6 +120,11 @@ accounts hang.
 
 Building the package is described in [packaging/README.md](packaging/README.md).
 
+## Other Linux Devices
+The app is designed for a phone and tested on the Librem 5 however it should work on 
+most Debian based distros and other Linux phones. We currently only test builds on the
+Librem 5 so other environments may have issues.
+
 ## Licence
 
 Linal is free software under the [GNU GPL, version 3 or later](LICENSE). The
